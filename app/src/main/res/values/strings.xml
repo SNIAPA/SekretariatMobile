@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sekretariat</string>
+    <string name="students">Students</string>
+    <string name="groups">Groups</string>
+    <string name="teachers">Teachers</string>
+    <string name="employees">Employees</string>
+</resources>
