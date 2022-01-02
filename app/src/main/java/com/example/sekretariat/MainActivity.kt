@@ -11,51 +11,48 @@ import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.util.Log
 import com.google.gson.GsonBuilder
-import java.io.File
-import java.io.FileInputStream
 import java.net.URI
 import java.util.*
+import kotlin.collections.ArrayList
+import android.app.Activity
+import com.google.gson.Gson
+import java.io.*
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var downloader: Downloader
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var fileContent:String;
+        Thread {
+            val urls = ArrayList<String>() //to read each line
+            try {
+                val url = URL("https://pastebin.com/raw/2RWvKSBh")
+                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.setConnectTimeout(60000) // timing out in a minute
+                val `in` = BufferedReader(InputStreamReader(conn.getInputStream()))
 
-        downloader =  Downloader()
-        downloader.downloadFile(this,"https://pastebin.com/raw/64WC2PdT","asd.json")
-
-
-
-        this.registerReceiver(
-            attachmentDownloadCompleteReceive, IntentFilter(
-                DownloadManager.ACTION_DOWNLOAD_COMPLETE
-            )
-        )
-
-    }
-
-    var attachmentDownloadCompleteReceive: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                val downloadId = intent.getLongExtra(
-                    DownloadManager.EXTRA_DOWNLOAD_ID, 0
-                )
-                val pfd =  downloader.dm.openDownloadedFile(downloadId) as ParcelFileDescriptor
-                Log.d("path", downloader.dm.getUriForDownloadedFile(downloadId).path !!)
-                val file = File(downloader.dm.getUriForDownloadedFile(downloadId).path!!)
-
-
-                val gsonBuilder = GsonBuilder()
-                gsonBuilder.registerTypeAdapter(Date::class.java, DateDeserializer())
-                val school = gsonBuilder.create().fromJson(file.readText(), School::class.java)
-
-
-
-                pfd.close()
+                var str: String
+                while (`in`.readLine().also { str = it } != null) {
+                    urls.add(str)
+                }
+                `in`.close()
+            } catch (e: Exception) {
+                Log.d("MyTag", e.toString())
             }
-        }
+
+            fileContent = urls[0]
+            Log.d("fileContent",fileContent)
+            Gson().fromJson(fileContent,School::class.java)
+        }.start()
+
+
+
+
     }
+
+
 }
