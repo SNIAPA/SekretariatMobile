@@ -1,30 +1,17 @@
 package com.example.sekretariat
 
+import android.util.Log
 import java.util.*
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
- class School
+class School
 {
+     var students: List<Student>? = null
+     var teachers: List<Teacher>? = null
+     var groups: List<Group>? = null
+     var employees: List<Employee>? = null
 
 
-     var students: Array<Student>? = null
-     var teachers: Array<Teacher>? = null
-     var groups: Array<Group>? = null
-     var employees: Array<Employee>? = null
-
-     open class Person
-    {
-         var id: Int? = null
-         var firstName:String? = null
-         var secondName:String? = null
-         var lastName :String? = null
-         var mothersName :String? = null
-         var maidenName :String? = null
-         var fathersName :String? = null
-         var gender:String? = null
-         var pesel:String? = null
-         var photo:String? = null
-         var birthDate: Date? = null
-    }
 
     open class Group
     {
@@ -32,25 +19,82 @@ import java.util.*
          var name:String? = null
     }
 
-    open class Student : Person()
+    open class Student
     {
-         var grade :String? = null
-         var groups :String? = null
+        var firstName:String? = null
+        var id: Int? = null
+        var secondName:String? = null
+        var lastName :String? = null
+        var mothersName :String? = null
+        var maidenName :String? = null
+        var fathersName :String? = null
+        var gender:String? = null
+        var pesel:String? = null
+        var photo:String? = null
+        var birthDate: Date? = null
+        var grade :String? = null
+        var groups :String? = null
+        operator fun get(key: String) : Comparable<Any> {
+            for (field in this::class.java.declaredFields) {
+                if (field.name == key)
+                    return (field.get(this)?:"null") as Comparable<Any>
+            }
+            throw IllegalArgumentException()
+        }
     }
 
-    open class Employee : Person()
+    open class Employee
     {
-         var jobPosition :String? = null
-         var workHours :String? = null
-         var employmentDate: Date? = null
+        var id: Int? = null
+        var firstName:String? = null
+        var secondName:String? = null
+        var lastName :String? = null
+        var mothersName :String? = null
+        var maidenName :String? = null
+        var fathersName :String? = null
+        var gender:String? = null
+        var pesel:String? = null
+        var photo:String? = null
+        var birthDate: Date? = null
+        var jobPosition :String? = null
+        var workHours :String? = null
+        var employmentDate: Date? = null
+        operator fun get(key: String) : Comparable<Any> {
+            for (field in this::class.java.declaredFields) {
+                if (field.name == key)
+                    return (field.get(this)?:"null") as Comparable<Any>
+            }
+            throw IllegalArgumentException()
+        }
 
     }
 
 
-    open class Teacher : Employee()
+    open class Teacher
     {
-         var supervisedClasses :String? = null
-         var subjects :String? = null
+        var id: Int? = null
+        var firstName:String? = null
+        var secondName:String? = null
+        var lastName :String? = null
+        var mothersName :String? = null
+        var maidenName :String? = null
+        var fathersName :String? = null
+        var gender:String? = null
+        var pesel:String? = null
+        var photo:String? = null
+        var birthDate: Date? = null
+        var jobPosition :String? = null
+        var workHours :String? = null
+        var employmentDate: Date? = null
+        var supervisedClasses :String? = null
+        var subjects :String? = null
+        operator fun get(key: String) : Comparable<Any> {
+            for (field in this::class.java.declaredFields) {
+                if (field.name == key)
+                    return (field.get(this)?:"null") as Comparable<Any>
+            }
+            throw IllegalArgumentException()
+        }
 
     }
 

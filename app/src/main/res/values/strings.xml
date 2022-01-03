@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Sekretariat</string>
-    <string name="students">Students</string>
-    <string name="groups">Groups</string>
-    <string name="teachers">Teachers</string>
-    <string name="employees">Employees</string>
     <string name="unable_to_open_file">Unable to open the database file</string>
+    <string name="filter">Filter</string>
+    <string-array name="tables">
+        <item>Students</item>
+        <item>Teachers</item>
+        <item>Employees</item>
+    </string-array>
 </resources>
